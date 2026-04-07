@@ -163,11 +163,19 @@ jobs:
             exit 0
           fi
 
+          if git rev-parse "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "Tag ${RELEASE_TAG} already exists locally."
+          else
+            git tag "$RELEASE_TAG"
+          fi
+
+          git push origin "refs/tags/${RELEASE_TAG}"
+
           release_args=(
             "$RELEASE_TAG"
-            --target HEAD
             --title "$RELEASE_TAG"
             --notes "Automated release for ${RELEASE_VERSION}"
+            --verify-tag
           )
 
           if [[ "$RELEASE_VERSION" == *-* ]]; then
