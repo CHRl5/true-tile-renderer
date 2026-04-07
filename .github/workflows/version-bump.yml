@@ -40,6 +40,7 @@ jobs:
         with:
           app-id: '3300059'
           private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
       - name: Checkout target ref
         uses: actions/checkout@v6
