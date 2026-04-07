@@ -13,3 +13,6 @@ updates:
       - dependency-name: gradle-wrapper
         versions:
           - "9.x"
+      - dependency-name: com.diffplug.spotless
+        versions:
+          - "8.x"
