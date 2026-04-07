@@ -1,0 +1,39 @@
+{
+	"version": "0.2",
+	"language": "en",
+	"words": [
+		"ChI2is",
+		"codeowners",
+		"dav1d",
+		"deflect",
+		"gradlew",
+		"hitsplat",
+		"hitsplats",
+		"Jagex",
+		"jshell",
+		"Prayeron",
+		"Zaros",
+		"Npcs",
+		"Headicons",
+		"pluginhub",
+		"Renderable",
+		"renderable",
+		"Runelite",
+		"RuneLite",
+		"npcs",
+		"spotanim",
+		"spotanims",
+		"sucellus",
+		"truetile",
+		"truetilerenderer",
+		"varbit",
+		"varbits",
+		"Zebak",
+		"Vardorvis"
+	],
+	"ignorePaths": [
+		"build/**",
+		".gradle/**",
+		"gradle/wrapper/gradle-wrapper.jar"
+	]
+}
