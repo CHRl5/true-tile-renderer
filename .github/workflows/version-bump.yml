@@ -149,3 +149,29 @@ jobs:
 
       - name: Push version bump commit
         run: git push origin "HEAD:${TARGET_REF}"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          RELEASE_TAG: v${{ steps.bump.outputs.current }}
+          RELEASE_VERSION: ${{ steps.bump.outputs.current }}
+        run: |
+          set -euo pipefail
+
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "Release ${RELEASE_TAG} already exists; skipping."
+            exit 0
+          fi
+
+          release_args=(
+            "$RELEASE_TAG"
+            --target HEAD
+            --title "$RELEASE_TAG"
+            --notes "Automated release for ${RELEASE_VERSION}"
+          )
+
+          if [[ "$RELEASE_VERSION" == *-* ]]; then
+            release_args+=(--prerelease)
+          fi
+
+          gh release create "${release_args[@]}"
