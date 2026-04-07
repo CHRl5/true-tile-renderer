@@ -96,6 +96,18 @@ The plugin currently exposes controls for:
 ./gradlew run
 ```
 
+## Versioning
+
+- The canonical project version lives in [`gradle.properties`](/Users/chris/GitHub/true-tile-renderer/gradle.properties#L1).
+- The current prerelease version is `0.0.1-alpha.1`.
+- PRs targeting `main` must carry exactly one release label:
+- `release:major` bumps to the next major release.
+- `release:minor` bumps to the next minor release.
+- `release:patch` bumps to the next patch release.
+- `release:prerelease` increments the current `-alpha.N` version, or starts the next patch as `-alpha.1` if the current version is stable.
+- [`version-label.yml`](/Users/chris/GitHub/true-tile-renderer/.github/workflows/version-label.yml#L1) enforces that rule on PRs to `main`.
+- [`version-bump.yml`](/Users/chris/GitHub/true-tile-renderer/.github/workflows/version-bump.yml#L1) applies the bump after merge to `main`, and also supports manual `workflow_dispatch` runs for branch testing.
+
 ## Status notes
 
 - Mirrored health bars and head icons are custom overlay recreations.
