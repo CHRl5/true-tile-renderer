@@ -35,7 +35,8 @@ import net.runelite.client.ui.overlay.outline.ModelOutlineRenderer;
 
 @PluginDescriptor(
     name = "True Tile Renderer",
-    description = "Hide specific actors and render their outlines on their server tiles",
+    description =
+        "Render true-tile outlines and mirrored overlays for the player and selected NPCs",
     tags = {"combat", "npc", "outline", "player", "true tile"})
 public class TrueTileRendererPlugin extends Plugin {
   @Inject private Client client;
@@ -217,13 +218,6 @@ public class TrueTileRendererPlugin extends Plugin {
 
     Player localPlayer = client.getLocalPlayer();
     if (config.renderLocalPlayer() && renderable == localPlayer) {
-      return false;
-    }
-
-    if (config.renderNpcs()
-        && renderable instanceof NPC
-        && TrueTileActorMatcher.shouldRenderNpc(
-            (NPC) renderable, localPlayer, config.npcRenderMode(), configuredNpcNames)) {
       return false;
     }
 

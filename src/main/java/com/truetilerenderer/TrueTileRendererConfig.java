@@ -21,8 +21,9 @@ public interface TrueTileRendererConfig extends Config {
 
   @ConfigItem(
       keyName = "renderNpcs",
-      name = "Hide NPC models, show true-tile outlines",
-      description = "Hide matching NPC models and render their outlines on their server tiles",
+      name = "Show NPC true-tile outlines",
+      description =
+          "Draw true-tile outlines for matching NPCs while keeping their normal model visible",
       position = 1)
   default boolean renderNpcs() {
     return false;
