@@ -1,0 +1,142 @@
+name: Version Bump
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - closed
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: Version bump type to apply manually
+        required: true
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+          - prerelease
+      target_ref:
+        description: Branch or ref to update during manual testing
+        required: true
+        default: main
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  bump:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    env:
+      TARGET_REF: ${{ github.event_name == 'workflow_dispatch' && inputs.target_ref || github.event.pull_request.base.ref }}
+    steps:
+      - name: Checkout target ref
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TARGET_REF }}
+          fetch-depth: 0
+
+      - name: Determine bump type
+        id: determine
+        uses: actions/github-script@v8
+        with:
+          script: |
+            if (context.eventName === 'workflow_dispatch') {
+              core.setOutput('bump_type', '${{ inputs.bump_type }}');
+              core.notice(`Manual bump type: ${{ inputs.bump_type }}`);
+              return;
+            }
+
+            const allowed = [
+              'release:major',
+              'release:minor',
+              'release:patch',
+              'release:prerelease'
+            ];
+
+            const labels = context.payload.pull_request.labels
+              .map((label) => label.name)
+              .filter((name) => allowed.includes(name));
+
+            if (labels.length !== 1) {
+              core.setFailed(
+                `Exactly one release label is required. ` +
+                `Use one of: ${allowed.join(', ')}. ` +
+                `Found: ${labels.length === 0 ? 'none' : labels.join(', ')}`
+              );
+              return;
+            }
+
+            const bumpType = labels[0].replace('release:', '');
+            core.setOutput('bump_type', bumpType);
+            core.notice(`Merged PR bump type: ${bumpType}`);
+
+      - name: Bump version in gradle.properties
+        id: bump
+        env:
+          BUMP_TYPE: ${{ steps.determine.outputs.bump_type }}
+        run: |
+          set -euo pipefail
+
+          current_version="$(grep '^version=' gradle.properties | cut -d= -f2)"
+          if [[ ! "$current_version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)(-alpha\.([0-9]+))?$ ]]; then
+            echo "Unsupported version format: $current_version"
+            exit 1
+          fi
+
+          major="${BASH_REMATCH[1]}"
+          minor="${BASH_REMATCH[2]}"
+          patch="${BASH_REMATCH[3]}"
+          prerelease_number="${BASH_REMATCH[5]:-}"
+
+          case "$BUMP_TYPE" in
+            major)
+              major=$((major + 1))
+              minor=0
+              patch=0
+              new_version="${major}.${minor}.${patch}"
+              ;;
+            minor)
+              minor=$((minor + 1))
+              patch=0
+              new_version="${major}.${minor}.${patch}"
+              ;;
+            patch)
+              patch=$((patch + 1))
+              new_version="${major}.${minor}.${patch}"
+              ;;
+            prerelease)
+              if [[ -n "$prerelease_number" ]]; then
+                prerelease_number=$((prerelease_number + 1))
+                new_version="${major}.${minor}.${patch}-alpha.${prerelease_number}"
+              else
+                patch=$((patch + 1))
+                new_version="${major}.${minor}.${patch}-alpha.1"
+              fi
+              ;;
+            *)
+              echo "Unknown bump type: $BUMP_TYPE"
+              exit 1
+              ;;
+          esac
+
+          sed -i "s/^version=.*/version=${new_version}/" gradle.properties
+
+          echo "previous=${current_version}" >> "$GITHUB_OUTPUT"
+          echo "current=${new_version}" >> "$GITHUB_OUTPUT"
+          echo "Updated version: ${current_version} -> ${new_version}"
+
+      - name: Commit version bump
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gradle.properties
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.current }}"
+
+      - name: Push version bump commit
+        run: git push origin "HEAD:${TARGET_REF}"
