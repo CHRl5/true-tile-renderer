@@ -29,7 +29,6 @@ import net.runelite.client.ui.overlay.OverlayUtil;
 
 class TrueTileRendererOverlay extends Overlay {
   private static final int NAME_OFFSET = 40;
-  private static final Color TEXT_COLOR = Color.WHITE;
   private static final Color HEALTH_BAR_FILL = new Color(42, 170, 68, 220);
   private static final Color HEALTH_BAR_MISSING = new Color(120, 24, 24, 180);
   private static final Color HEALTH_BAR_BORDER = new Color(0, 0, 0, 220);
