@@ -37,8 +37,3 @@ This plugin is built for situations where exact server positioning matters more 
 - Configure an NPC name list
 - Toggle mirrored actor names, health bars, overheads, and hitsplats
 - Adjust outline colors, width, and feathering
-
-## Status notes
-
-- Mirrored health bars and head icons are custom overlay recreations.
-- Mirrored hitsplats are implemented as a first-pass prototype using exact hitsplat events and timing, but they are not yet pixel-identical to native Jagex hitsplats.
