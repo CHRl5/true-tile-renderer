@@ -8,3 +8,9 @@ build
 nbactions.xml
 nb-configuration.xml
 nbproject/
+
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
