@@ -4,9 +4,12 @@ import com.google.inject.Provides;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
 import net.runelite.api.Actor;
@@ -91,6 +94,11 @@ public class TrueTileRendererPlugin extends Plugin {
       return;
     }
 
+    if (!isTrackedActor(actor)) {
+      mirroredHitsplats.remove(actor);
+      return;
+    }
+
     mirroredHitsplats
         .computeIfAbsent(actor, ignored -> new ArrayList<>())
         .add(
@@ -109,13 +117,19 @@ public class TrueTileRendererPlugin extends Plugin {
 
   void renderOutlines() {
     if (client.getGameState() != GameState.LOGGED_IN) {
+      outlineObjects.clear();
+      mirroredHitsplats.clear();
       return;
     }
 
-    renderLocalPlayerOutline();
+    Set<Actor> trackedActors = new HashSet<>();
+    renderLocalPlayerOutline(trackedActors);
     for (NPC npc : getTrackedNpcs()) {
+      trackedActors.add(npc);
       drawActorOutline(npc, config.npcOutlineColor());
     }
+
+    pruneTransientState(trackedActors);
   }
 
   Set<NPC> getTrackedNpcs() {
@@ -164,13 +178,14 @@ public class TrueTileRendererPlugin extends Plugin {
     return LocalPoint.fromWorld(actor.getWorldView(), worldLocation);
   }
 
-  private void renderLocalPlayerOutline() {
+  private void renderLocalPlayerOutline(Set<Actor> trackedActors) {
     if (!config.renderLocalPlayer()) {
       return;
     }
 
     Player localPlayer = client.getLocalPlayer();
     if (localPlayer != null) {
+      trackedActors.add(localPlayer);
       drawActorOutline(localPlayer, config.playerOutlineColor());
     }
   }
@@ -213,6 +228,52 @@ public class TrueTileRendererPlugin extends Plugin {
     }
 
     return true;
+  }
+
+  private void pruneTransientState(Set<Actor> trackedActors) {
+    pruneOutlineObjects(trackedActors);
+    pruneMirroredHitsplats(trackedActors);
+  }
+
+  private void pruneOutlineObjects(Set<Actor> trackedActors) {
+    Iterator<Actor> iterator = outlineObjects.keySet().iterator();
+    while (iterator.hasNext()) {
+      if (!trackedActors.contains(iterator.next())) {
+        iterator.remove();
+      }
+    }
+  }
+
+  private void pruneMirroredHitsplats(Set<Actor> trackedActors) {
+    int currentCycle = client.getGameCycle();
+    Iterator<Map.Entry<Actor, List<MirroredHitsplat>>> iterator =
+        mirroredHitsplats.entrySet().iterator();
+    while (iterator.hasNext()) {
+      Map.Entry<Actor, List<MirroredHitsplat>> entry = iterator.next();
+      List<MirroredHitsplat> hitsplats = entry.getValue();
+      hitsplats.removeIf(hitsplat -> hitsplat.getDisappearsOnGameCycle() <= currentCycle);
+      if (!trackedActors.contains(entry.getKey()) || hitsplats.isEmpty()) {
+        iterator.remove();
+      }
+    }
+  }
+
+  private boolean isTrackedActor(Actor actor) {
+    if (actor == null) {
+      return false;
+    }
+
+    if (actor == client.getLocalPlayer()) {
+      return config.renderLocalPlayer();
+    }
+
+    if (actor instanceof NPC) {
+      return config.renderNpcs()
+          && TrueTileActorMatcher.shouldRenderNpc(
+              (NPC) actor, client.getLocalPlayer(), config.npcRenderMode(), configuredNpcNames);
+    }
+
+    return false;
   }
 
   private void updateConfig() {

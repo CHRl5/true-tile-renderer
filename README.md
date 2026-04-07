@@ -1,13 +1,13 @@
 # True Tile Renderer
 
-[![CI](https://github.com/ChI2is/true-tile-renderer/actions/workflows/ci.yml/badge.svg)](https://github.com/ChI2is/true-tile-renderer/actions/workflows/ci.yml)
-[![Quality](https://github.com/ChI2is/true-tile-renderer/actions/workflows/quality.yml/badge.svg)](https://github.com/ChI2is/true-tile-renderer/actions/workflows/quality.yml)
-[![Security](https://github.com/ChI2is/true-tile-renderer/actions/workflows/security.yml/badge.svg)](https://github.com/ChI2is/true-tile-renderer/actions/workflows/security.yml)
+[![CI](https://github.com/CHRl5/true-tile-renderer/actions/workflows/ci.yml/badge.svg)](https://github.com/CHRl5/true-tile-renderer/actions/workflows/ci.yml)
+[![Quality](https://github.com/CHRl5/true-tile-renderer/actions/workflows/quality.yml/badge.svg)](https://github.com/CHRl5/true-tile-renderer/actions/workflows/quality.yml)
+[![Security](https://github.com/CHRl5/true-tile-renderer/actions/workflows/security.yml/badge.svg)](https://github.com/CHRl5/true-tile-renderer/actions/workflows/security.yml)
 ![Java](https://img.shields.io/badge/Java-11-ff9a3c)
 ![RuneLite](https://img.shields.io/badge/RuneLite-Plugin-00d4ff)
 ![Gradle](https://img.shields.io/badge/build-Gradle-02303a)
 ![Checks](https://img.shields.io/badge/checks-format%20%7C%20lint%20%7C%20spotbugs-blue)
-![Security](https://img.shields.io/badge/security-CodeQL%20%7C%20Trivy-8a2be2)
+![Security](https://img.shields.io/badge/security-Gitleaks%20%7C%20Trivy-8a2be2)
 ![Status](https://img.shields.io/badge/status-active-3fb950)
 
 True Tile Renderer is a RuneLite plugin that hides selected actors at their client-rendered position and redraws their animated outline, mirrored overlays, and combat information on the server-true tile instead.
