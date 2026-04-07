@@ -9,3 +9,7 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      - dependency-name: gradle-wrapper
+        versions:
+          - "9.x"
