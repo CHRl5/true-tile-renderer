@@ -12,8 +12,8 @@ public interface TrueTileRendererConfig extends Config {
 
   @ConfigItem(
       keyName = "renderLocalPlayer",
-      name = "Render local player",
-      description = "Hide your local player model and show its outline on the server tile",
+      name = "Hide local model, show true-tile outline",
+      description = "Hide your live local player model and render its outline on the server tile",
       position = 0)
   default boolean renderLocalPlayer() {
     return true;
@@ -21,8 +21,8 @@ public interface TrueTileRendererConfig extends Config {
 
   @ConfigItem(
       keyName = "renderNpcs",
-      name = "Render NPCs",
-      description = "Hide matching NPC models and show their outlines on their server tiles",
+      name = "Hide NPC models, show true-tile outlines",
+      description = "Hide matching NPC models and render their outlines on their server tiles",
       position = 1)
   default boolean renderNpcs() {
     return false;
@@ -49,19 +49,10 @@ public interface TrueTileRendererConfig extends Config {
   }
 
   @ConfigItem(
-      keyName = "mirrorOverheadText",
-      name = "Mirror overhead text",
-      description = "Draw actor overhead chat text at the true tile position",
-      position = 4)
-  default boolean mirrorOverheadText() {
-    return false;
-  }
-
-  @ConfigItem(
       keyName = "mirrorActorNames",
       name = "Mirror actor names",
       description = "Draw actor names at the true tile position",
-      position = 5)
+      position = 4)
   default boolean mirrorActorNames() {
     return false;
   }
@@ -70,16 +61,16 @@ public interface TrueTileRendererConfig extends Config {
       keyName = "mirrorHealthBars",
       name = "Mirror health bars",
       description = "Draw custom health bars at the true tile position",
-      position = 6)
+      position = 5)
   default boolean mirrorHealthBars() {
     return true;
   }
 
   @ConfigItem(
       keyName = "mirrorHeadIcons",
-      name = "Mirror head icons",
+      name = "Mirror overheads",
       description = "Draw overhead prayer and skull icons at the true tile position",
-      position = 7)
+      position = 6)
   default boolean mirrorHeadIcons() {
     return true;
   }
@@ -88,7 +79,7 @@ public interface TrueTileRendererConfig extends Config {
       keyName = "mirrorHitsplats",
       name = "Mirror hitsplats",
       description = "Draw custom hitsplats at the true tile position",
-      position = 8)
+      position = 7)
   default boolean mirrorHitsplats() {
     return true;
   }
@@ -98,7 +89,7 @@ public interface TrueTileRendererConfig extends Config {
       keyName = "playerOutlineColor",
       name = "Player outline color",
       description = "Outline color used for your local player",
-      position = 9)
+      position = 8)
   default Color playerOutlineColor() {
     return new Color(0, 255, 255, 180);
   }
@@ -108,7 +99,7 @@ public interface TrueTileRendererConfig extends Config {
       keyName = "npcOutlineColor",
       name = "NPC outline color",
       description = "Outline color used for matching NPCs",
-      position = 10)
+      position = 9)
   default Color npcOutlineColor() {
     return new Color(255, 64, 64, 180);
   }
@@ -117,7 +108,7 @@ public interface TrueTileRendererConfig extends Config {
       keyName = "outlineWidth",
       name = "Outline width",
       description = "Width of the rendered outline",
-      position = 11)
+      position = 10)
   default int outlineWidth() {
     return 4;
   }
@@ -126,7 +117,7 @@ public interface TrueTileRendererConfig extends Config {
       keyName = "outlineFeather",
       name = "Outline feather",
       description = "Softness of the rendered outline",
-      position = 12)
+      position = 11)
   default int outlineFeather() {
     return 2;
   }

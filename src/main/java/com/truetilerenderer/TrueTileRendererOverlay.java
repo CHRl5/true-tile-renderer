@@ -103,23 +103,6 @@ class TrueTileRendererOverlay extends Overlay {
       }
     }
 
-    if (config.mirrorOverheadText()) {
-      String overheadText = actor.getOverheadText();
-      if (overheadText != null && !overheadText.isBlank()) {
-        Client safeClient = Objects.requireNonNull(client);
-        Graphics2D safeGraphics = Objects.requireNonNull(graphics);
-        LocalPoint safeTrueTileLocation = Objects.requireNonNull(trueTileLocation);
-        Point overheadLocation =
-            Perspective.getCanvasTextLocation(
-                safeClient,
-                safeGraphics,
-                safeTrueTileLocation,
-                overheadText,
-                actor.getLogicalHeight() + NAME_OFFSET + getExtraVerticalOffset(actor) + 20);
-        OverlayUtil.renderTextLocation(graphics, overheadLocation, overheadText, TEXT_COLOR);
-      }
-    }
-
     if (config.mirrorHealthBars()) {
       renderHealthBar(graphics, actor, trueTileLocation);
     }

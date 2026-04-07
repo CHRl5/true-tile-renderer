@@ -18,11 +18,9 @@ True Tile Renderer is a RuneLite plugin that hides selected actors at their clie
 
 <p>
 <img src="src/main/resources/com/truetilerenderer/pluginhub_icon.png" alt="Plugin Hub icon" width="96" />
-<img src="src/main/resources/com/truetilerenderer/sidebar_icon.png" alt="Sidebar icon" width="32" />
 </p>
 
 - Plugin Hub placeholder icon is wired at [`icon.png`](/Users/chris/GitHub/true-tile-renderer/icon.png)
-- Sidebar placeholder icon is stored at [`sidebar_icon.png`](/Users/chris/GitHub/true-tile-renderer/src/main/resources/com/truetilerenderer/sidebar_icon.png) for future nav-panel wiring
 
 ## What it does
 
