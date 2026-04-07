@@ -54,12 +54,12 @@ spotless {
 		trimTrailingWhitespace()
 		endWithNewline()
 	}
-	format 'misc', {
-		target '.gitignore', '*.gradle', '*.md', '.github/**/*.yml', '.github/**/*.yaml', 'config/**/*.xml'
-		trimTrailingWhitespace()
-		indentWithTabs()
-		endWithNewline()
-	}
+format 'misc', {
+	target '.gitignore', '*.gradle', '*.md', 'config/**/*.xml'
+	trimTrailingWhitespace()
+	indentWithTabs()
+	endWithNewline()
+}
 }
 
 spotbugs {
