@@ -77,12 +77,34 @@ public interface TrueTileRendererConfig extends Config
 		return false;
 	}
 
+	@ConfigItem(
+		keyName = "mirrorHealthBars",
+		name = "Mirror health bars",
+		description = "Draw custom health bars at the true tile position",
+		position = 6
+	)
+	default boolean mirrorHealthBars()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "mirrorHeadIcons",
+		name = "Mirror head icons",
+		description = "Draw overhead prayer and skull icons at the true tile position",
+		position = 7
+	)
+	default boolean mirrorHeadIcons()
+	{
+		return true;
+	}
+
 	@Alpha
 	@ConfigItem(
 		keyName = "playerOutlineColor",
 		name = "Player outline color",
 		description = "Outline color used for your local player",
-		position = 6
+		position = 8
 	)
 	default Color playerOutlineColor()
 	{
@@ -94,7 +116,7 @@ public interface TrueTileRendererConfig extends Config
 		keyName = "npcOutlineColor",
 		name = "NPC outline color",
 		description = "Outline color used for matching NPCs",
-		position = 7
+		position = 9
 	)
 	default Color npcOutlineColor()
 	{
@@ -105,7 +127,7 @@ public interface TrueTileRendererConfig extends Config
 		keyName = "outlineWidth",
 		name = "Outline width",
 		description = "Width of the rendered outline",
-		position = 8
+		position = 10
 	)
 	default int outlineWidth()
 	{
@@ -116,7 +138,7 @@ public interface TrueTileRendererConfig extends Config
 		keyName = "outlineFeather",
 		name = "Outline feather",
 		description = "Softness of the rendered outline",
-		position = 9
+		position = 11
 	)
 	default int outlineFeather()
 	{
