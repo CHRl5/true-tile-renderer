@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
 	id 'checkstyle'
+	id 'pmd'
 	id 'com.diffplug.spotless' version '6.25.0'
 	id 'com.github.spotbugs' version '6.4.8'
 }
@@ -40,12 +41,19 @@ dependencies {
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'
 	options.release.set(11)
-	options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
+	options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked', '-Werror']
 }
 
 checkstyle {
 	toolVersion = '10.17.0'
 	configFile = file('config/checkstyle/checkstyle.xml')
+}
+
+pmd {
+	toolVersion = '6.55.0'
+	consoleOutput = true
+	ruleSets = []
+	ruleSetFiles = files('config/pmd/ruleset.xml')
 }
 
 spotless {
@@ -72,6 +80,13 @@ spotbugs {
 }
 
 tasks.withType(Checkstyle).configureEach {
+	reports {
+		xml.required.set(false)
+		html.required.set(true)
+	}
+}
+
+tasks.withType(Pmd).configureEach {
 	reports {
 		xml.required.set(false)
 		html.required.set(true)
