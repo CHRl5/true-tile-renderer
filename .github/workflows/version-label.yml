@@ -1,0 +1,49 @@
+name: Version Label
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+      - unlabeled
+      - edited
+      - ready_for_review
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  validate:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate version bump label
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const allowed = [
+              'release:major',
+              'release:minor',
+              'release:patch',
+              'release:prerelease'
+            ];
+
+            const labels = context.payload.pull_request.labels
+              .map((label) => label.name)
+              .filter((name) => allowed.includes(name));
+
+            if (labels.length !== 1) {
+              core.setFailed(
+                `Exactly one release label is required on PRs to main. ` +
+                `Use one of: ${allowed.join(', ')}. ` +
+                `Found: ${labels.length === 0 ? 'none' : labels.join(', ')}`
+              );
+              return;
+            }
+
+            core.notice(`Version bump label selected: ${labels[0]}`);
