@@ -1,0 +1,42 @@
+name: CI
+
+on:
+push:
+	branches:
+	- dev
+	- main
+pull_request:
+
+jobs:
+build:
+	runs-on: ubuntu-latest
+
+	steps:
+	- name: Checkout
+		uses: actions/checkout@v4
+
+	- name: Validate Gradle wrapper
+		uses: gradle/actions/wrapper-validation@v4
+
+	- name: Set up Temurin 11
+		uses: actions/setup-java@v4
+		with:
+		distribution: temurin
+		java-version: '11'
+		cache: gradle
+
+	- name: Make Gradle executable
+		run: chmod +x gradlew
+
+	- name: Run format, lint, and tests
+		run: ./gradlew spotlessCheck check --stacktrace
+
+	- name: Upload reports
+		if: always()
+		uses: actions/upload-artifact@v4
+		with:
+		name: quality-reports
+		path: |
+			build/reports
+			build/test-results
+		if-no-files-found: ignore

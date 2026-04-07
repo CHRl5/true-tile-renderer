@@ -1,5 +1,8 @@
 plugins {
 	id 'java'
+	id 'checkstyle'
+	id 'com.diffplug.spotless' version '6.25.0'
+	id 'com.github.spotbugs' version '6.0.26'
 }
 
 repositories {
@@ -34,6 +37,53 @@ version = '1.0-SNAPSHOT'
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'
 	options.release.set(11)
+	options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
+}
+
+checkstyle {
+	toolVersion = '10.17.0'
+	configFile = file('config/checkstyle/checkstyle.xml')
+}
+
+spotless {
+	java {
+		target 'src/**/*.java'
+		googleJavaFormat('1.22.0')
+		formatAnnotations()
+		removeUnusedImports()
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
+	format 'misc', {
+		target '.gitignore', '*.gradle', '*.md', '.github/**/*.yml', '.github/**/*.yaml', 'config/**/*.xml'
+		trimTrailingWhitespace()
+		indentWithTabs()
+		endWithNewline()
+	}
+}
+
+spotbugs {
+	toolVersion.set('4.8.6')
+	effort.set(com.github.spotbugs.snom.Effort.valueOf('MAX'))
+	reportLevel.set(com.github.spotbugs.snom.Confidence.valueOf('LOW'))
+}
+
+tasks.withType(Checkstyle).configureEach {
+	reports {
+		xml.required.set(false)
+		html.required.set(true)
+	}
+}
+
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask).configureEach {
+	reports {
+		xml.required.set(false)
+		html.required.set(true)
+	}
+}
+
+tasks.named('check') {
+	dependsOn 'spotlessCheck'
 }
 
 tasks.register('run', JavaExec) {

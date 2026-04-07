@@ -1,0 +1,29 @@
+{
+	"version": "0.2",
+	"language": "en",
+	"words": [
+		"ChI2is",
+		"codeowners",
+		"dav1d",
+		"deflect",
+		"gradlew",
+		"hitsplat",
+		"hitsplats",
+		"jshell",
+		"Runelite",
+		"RuneLite",
+		"spotanim",
+		"spotanims",
+		"truetile",
+		"truetilerenderer",
+		"varbit",
+		"varbits",
+		"Zebak",
+		"Vardorvis"
+	],
+	"ignorePaths": [
+		"build/**",
+		".gradle/**",
+		"gradle/wrapper/gradle-wrapper.jar"
+	]
+}
