@@ -34,6 +34,17 @@ public class TrueTileActorMatcherTest {
   }
 
   @Test
+  public void currentTargetModeMatchesNpcInteractionWithLocalPlayer() {
+    Player localPlayer = Mockito.mock(Player.class);
+    NPC npc = mockNpc("Zebak");
+    Mockito.when(npc.getInteracting()).thenReturn(localPlayer);
+
+    assertTrue(
+        TrueTileActorMatcher.shouldRenderNpc(
+            npc, localPlayer, NpcRenderMode.CURRENT_TARGET, Set.of()));
+  }
+
+  @Test
   public void configuredListModeMatchesNormalizedNpcName() {
     Player localPlayer = Mockito.mock(Player.class);
     NPC npc = mockNpc("The Whisperer");
@@ -41,6 +52,16 @@ public class TrueTileActorMatcherTest {
     assertTrue(
         TrueTileActorMatcher.shouldRenderNpc(
             npc, localPlayer, NpcRenderMode.CONFIGURED_LIST, Set.of("the whisperer")));
+  }
+
+  @Test
+  public void configuredListModeMatchesTransformedNpcName() {
+    Player localPlayer = Mockito.mock(Player.class);
+    NPC npc = mockNpc("Kephri", "Scarab Swarm");
+
+    assertTrue(
+        TrueTileActorMatcher.shouldRenderNpc(
+            npc, localPlayer, NpcRenderMode.CONFIGURED_LIST, Set.of("scarab swarm")));
   }
 
   @Test
@@ -54,13 +75,23 @@ public class TrueTileActorMatcherTest {
   }
 
   private static NPC mockNpc(String name) {
+    return mockNpc(name, null);
+  }
+
+  private static NPC mockNpc(String name, String transformedName) {
     NPC npc = Mockito.mock(NPC.class);
     NPCComposition composition = Mockito.mock(NPCComposition.class);
+    NPCComposition transformedComposition = Mockito.mock(NPCComposition.class);
     Model model = Mockito.mock(Model.class);
     WorldPoint worldPoint = new WorldPoint(3200, 3200, 0);
 
     Mockito.when(npc.getComposition()).thenReturn(composition);
     Mockito.when(composition.getName()).thenReturn(name);
+    Mockito.when(npc.getTransformedComposition())
+        .thenReturn(transformedName == null ? null : transformedComposition);
+    if (transformedName != null) {
+      Mockito.when(transformedComposition.getName()).thenReturn(transformedName);
+    }
     Mockito.when(npc.getName()).thenReturn(name);
     Mockito.when(npc.getModel()).thenReturn(model);
     Mockito.when(npc.getWorldLocation()).thenReturn(worldPoint);

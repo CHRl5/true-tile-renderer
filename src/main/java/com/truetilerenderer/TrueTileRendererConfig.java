@@ -84,12 +84,21 @@ public interface TrueTileRendererConfig extends Config {
     return true;
   }
 
+  @ConfigItem(
+      keyName = "hideOriginalOverlays",
+      name = "Hide original overhead UI",
+      description = "Hide tracked actors' original overhead UI when mirrored overlays are enabled",
+      position = 8)
+  default boolean hideOriginalOverlays() {
+    return true;
+  }
+
   @Alpha
   @ConfigItem(
       keyName = "playerOutlineColor",
       name = "Player outline color",
       description = "Outline color used for your local player",
-      position = 8)
+      position = 9)
   default Color playerOutlineColor() {
     return new Color(0, 255, 255, 180);
   }
@@ -99,7 +108,7 @@ public interface TrueTileRendererConfig extends Config {
       keyName = "npcOutlineColor",
       name = "NPC outline color",
       description = "Outline color used for matching NPCs",
-      position = 9)
+      position = 10)
   default Color npcOutlineColor() {
     return new Color(255, 64, 64, 180);
   }
@@ -108,7 +117,7 @@ public interface TrueTileRendererConfig extends Config {
       keyName = "outlineWidth",
       name = "Outline width",
       description = "Width of the rendered outline",
-      position = 10)
+      position = 11)
   default int outlineWidth() {
     return 4;
   }
@@ -117,7 +126,7 @@ public interface TrueTileRendererConfig extends Config {
       keyName = "outlineFeather",
       name = "Outline feather",
       description = "Softness of the rendered outline",
-      position = 11)
+      position = 12)
   default int outlineFeather() {
     return 2;
   }

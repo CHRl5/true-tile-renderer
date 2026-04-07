@@ -231,10 +231,12 @@ public class TrueTileRendererPlugin extends Plugin {
   }
 
   private boolean shouldSuppressOriginalUi(Actor actor) {
-    if (!isTrackedActor(actor)) {
+    if (!config.hideOriginalOverlays() || !isTrackedActor(actor)) {
       return false;
     }
 
+    // Prevent duplicate overhead UI when the plugin is already redrawing those elements
+    // at the actor's true-tile position.
     return config.mirrorActorNames()
         || config.mirrorHealthBars()
         || config.mirrorHeadIcons()
