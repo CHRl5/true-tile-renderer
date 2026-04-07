@@ -212,7 +212,7 @@ public class TrueTileRendererPlugin extends Plugin {
 
   private boolean shouldDraw(Renderable renderable, boolean drawingUi) {
     if (drawingUi) {
-      return true;
+      return !(renderable instanceof Actor) || !shouldSuppressOriginalUi((Actor) renderable);
     }
 
     Player localPlayer = client.getLocalPlayer();
@@ -228,6 +228,17 @@ public class TrueTileRendererPlugin extends Plugin {
     }
 
     return true;
+  }
+
+  private boolean shouldSuppressOriginalUi(Actor actor) {
+    if (!isTrackedActor(actor)) {
+      return false;
+    }
+
+    return config.mirrorActorNames()
+        || config.mirrorHealthBars()
+        || config.mirrorHeadIcons()
+        || config.mirrorHitsplats();
   }
 
   private void pruneTransientState(Set<Actor> trackedActors) {
