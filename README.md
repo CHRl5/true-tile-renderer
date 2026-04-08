@@ -2,8 +2,6 @@
 
 True Tile Renderer is a RuneLite plugin for visualizing server-true position in a way that is easy to read during real gameplay. It redraws your local player outline on the true tile and adds matching true-tile overlays for selected NPCs.
 
-![True Tile Renderer overview](docs/assets/readme-hero.png)
-
 ## Overview
 
 Old School RuneScape renders actors at a smoothed client position that can drift visually from where the server actually considers them to be standing. True Tile Renderer keeps that distinction visible by anchoring outlines and optional combat overlays to the true tile instead of the interpolated model position.
