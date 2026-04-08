@@ -11,7 +11,7 @@ Old School RuneScape renders actors at a smoothed client position that can drift
 The plugin is designed to help with:
 
 - movement-heavy PvM
-- boss spacing and pathing reads
+- boss spacing and movement reads
 - learning true tile behavior
 - spotting model drift during attacks, movement, and target swaps
 
