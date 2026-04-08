@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'jacoco'
 	id 'checkstyle'
 	id 'pmd'
 	id 'com.diffplug.spotless' version '6.25.0'
@@ -34,6 +35,7 @@ dependencies {
 
 	testImplementation 'junit:junit:4.13.2'
 	testImplementation 'org.mockito:mockito-core:5.23.0'
+	testCompileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
 	testImplementation group: 'net.runelite', name:'client', version: runeLiteVersion
 	testImplementation group: 'net.runelite', name:'jshell', version: runeLiteVersion
 }
@@ -54,6 +56,10 @@ pmd {
 	consoleOutput = true
 	ruleSets = []
 	ruleSetFiles = files('config/pmd/ruleset.xml')
+}
+
+jacoco {
+	toolVersion = '0.8.13'
 }
 
 spotless {
@@ -102,6 +108,33 @@ tasks.withType(com.github.spotbugs.snom.SpotBugsTask).configureEach {
 
 tasks.named('check') {
 	dependsOn 'spotlessCheck'
+	dependsOn 'jacocoTestCoverageVerification'
+}
+
+tasks.named('test') {
+	finalizedBy 'jacocoTestReport'
+}
+
+tasks.named('jacocoTestReport') {
+	dependsOn 'test'
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+	}
+}
+
+tasks.named('jacocoTestCoverageVerification') {
+	dependsOn 'jacocoTestReport'
+	violationRules {
+		rule {
+			element = 'CLASS'
+			limit {
+				counter = 'LINE'
+				value = 'MISSEDCOUNT'
+				maximum = 0
+			}
+		}
+	}
 }
 
 tasks.register('run', JavaExec) {

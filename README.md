@@ -1,40 +1,37 @@
 # True Tile Renderer
 
-True Tile Renderer is a RuneLite plugin that redraws the local player and selected NPC information on the server-true tile with animated outlines and mirrored combat overlays.
+True Tile Renderer is a RuneLite plugin for visualizing server-true position in a way that is easy to read during real gameplay. It redraws your local player outline on the true tile and adds matching true-tile overlays for selected NPCs.
 
 ![True Tile Renderer overview](docs/assets/readme-hero.png)
 
-## What it does
+## Overview
 
-- Hides your local player model and redraws its animated outline on the true tile.
-- Draws true-tile outlines for matching NPCs while keeping their normal model visible.
-- Supports either your current combat target or a configurable NPC name list.
-- Mirrors names, health bars, overheads, and hitsplats at the true tile location.
-- Keeps the visual language focused on server position instead of interpolated client position.
+Old School RuneScape renders actors at a smoothed client position that can drift visually from where the server actually considers them to be standing. True Tile Renderer keeps that distinction visible by anchoring outlines and optional combat overlays to the true tile instead of the interpolated model position.
 
-## Why use it
+![True Tile Renderer visual guide](docs/assets/readme-visual-guide.svg)
 
-This plugin is built for situations where exact server positioning matters more than the default rendered position. It is especially useful for movement-heavy PvM, learning encounter spacing, reading melee/range/mage proximity on bosses, and understanding when a model has visually drifted away from its real tile.
+The plugin is designed to help with:
+
+- movement-heavy PvM
+- boss spacing and pathing reads
+- learning true tile behavior
+- spotting model drift during attacks, movement, and target swaps
 
 ## Features
 
-- Local player true-tile outline rendering
-- NPC true-tile outline rendering
-- Exact live model animation mirroring on the true tile
-- Current-target mode
-- Configured-list mode using NPC names
-- Actor names
-- Health bars
-- Overheads
-- Mirrored hitsplats
-- Configurable outline colors, width, and feathering
+- Hides the local player model and redraws its live animated outline on the true tile
+- Draws true-tile outlines for selected NPCs while keeping their normal model and clickbox visible
+- Supports either the current combat target or a configurable NPC name list
+- Mirrors names, health bars, overheads, and hitsplats at the true-tile position
+- Uses the actor's live model state, so the true-tile outline follows the current animation frame and orientation
+- Supports configurable outline colors, width, and feathering
 
 ## Configuration
 
-- Hide the local player model and render a true-tile outline instead
-- Show true-tile outlines for matching NPCs while keeping their normal model visible
+- Hide the local player model and show a true-tile outline
+- Show true-tile outlines for matching NPCs
 - Choose between current-target mode and configured-list mode
-- Configure an NPC name list
-- Toggle mirrored actor names, health bars, overheads, and hitsplats
-- Choose whether to hide original overhead UI when mirrored overlays are enabled
+- Configure a comma- or newline-separated NPC list
+- Toggle mirrored names, health bars, overheads, and hitsplats
+- Hide the original overhead UI when mirrored overlays are enabled
 - Adjust outline colors, width, and feathering

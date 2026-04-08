@@ -1,0 +1,117 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="700" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5F7FB"/>
+      <stop offset="1" stop-color="#EEF2F7"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F8FAFC"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .title { font: 700 34px "Helvetica Neue", Arial, sans-serif; fill: #0F172A; }
+      .subtitle { font: 400 17px "Helvetica Neue", Arial, sans-serif; fill: #475569; }
+      .cardTitle { font: 700 24px "Helvetica Neue", Arial, sans-serif; fill: #0F172A; }
+      .cardText { font: 400 16px "Helvetica Neue", Arial, sans-serif; fill: #475569; }
+      .label { font: 700 14px "Helvetica Neue", Arial, sans-serif; fill: #334155; letter-spacing: 0.06em; }
+      .small { font: 400 14px "Helvetica Neue", Arial, sans-serif; fill: #64748B; }
+      .chip { font: 700 13px "Helvetica Neue", Arial, sans-serif; fill: #0F172A; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="700" rx="28" fill="url(#bg)"/>
+
+  <text x="74" y="84" class="title">How True Tile Renderer changes the read</text>
+  <text x="74" y="116" class="subtitle">The plugin separates interpolated model position from the server-true tile, then mirrors the information that matters where you actually are.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="160" width="340" height="470" rx="26" fill="url(#card)"/>
+    <rect x="430" y="160" width="340" height="470" rx="26" fill="url(#card)"/>
+    <rect x="800" y="160" width="340" height="470" rx="26" fill="url(#card)"/>
+  </g>
+
+  <g>
+    <text x="92" y="214" class="cardTitle">Default client view</text>
+    <text x="92" y="242" class="cardText">Models can drift visually from the tile the server is using.</text>
+
+    <rect x="98" y="278" width="264" height="272" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+    <g opacity="0.95">
+      <path d="M152 488L180 472L208 488L180 504L152 488Z" fill="#CBD5E1"/>
+      <path d="M212 454L240 438L268 454L240 470L212 454Z" fill="#CBD5E1"/>
+      <path d="M272 488L300 472L328 488L300 504L272 488Z" fill="#CBD5E1"/>
+      <path d="M212 522L240 506L268 522L240 538L212 522Z" fill="#CBD5E1"/>
+      <path d="M152 420L180 404L208 420L180 436L152 420Z" fill="#CBD5E1"/>
+      <path d="M272 420L300 404L328 420L300 436L272 420Z" fill="#CBD5E1"/>
+      <path d="M212 386L240 370L268 386L240 402L212 386Z" fill="#CBD5E1"/>
+    </g>
+
+    <path d="M221 389L249 373L277 389L249 405L221 389Z" fill="#A5B4FC" stroke="#6366F1" stroke-width="3"/>
+    <path d="M239 298C239 291 245 285 252 285C259 285 265 291 265 298C265 304 260 309 255 311V323H273L281 343H266L263 381H247L244 343H229L237 323H255V311C248 309 239 305 239 298Z" fill="#0F172A" opacity="0.72"/>
+
+    <path d="M255 323C281 344 290 379 284 413" stroke="#94A3B8" stroke-width="5" stroke-linecap="round" stroke-dasharray="9 9"/>
+    <path d="M278 419L286 408L290 421" stroke="#94A3B8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <path d="M281 423L309 407L337 423L309 439L281 423Z" fill="#E2E8F0" stroke="#94A3B8" stroke-width="3"/>
+    <text x="281" y="570" class="small">Smooth model position is easy to misread.</text>
+  </g>
+
+  <g>
+    <text x="462" y="214" class="cardTitle">Local player mode</text>
+    <text x="462" y="242" class="cardText">Hide the live player model and redraw its outline on the true tile.</text>
+
+    <rect x="468" y="278" width="264" height="272" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+    <g opacity="0.95">
+      <path d="M522 488L550 472L578 488L550 504L522 488Z" fill="#CBD5E1"/>
+      <path d="M582 454L610 438L638 454L610 470L582 454Z" fill="#CBD5E1"/>
+      <path d="M642 488L670 472L698 488L670 504L642 488Z" fill="#CBD5E1"/>
+      <path d="M582 522L610 506L638 522L610 538L582 522Z" fill="#CBD5E1"/>
+      <path d="M522 420L550 404L578 420L550 436L522 420Z" fill="#CBD5E1"/>
+      <path d="M642 420L670 404L698 420L670 436L642 420Z" fill="#CBD5E1"/>
+      <path d="M582 386L610 370L638 386L610 402L582 386Z" fill="#CBD5E1"/>
+    </g>
+
+    <path d="M591 389L619 373L647 389L619 405L591 389Z" fill="#A5F3FC" stroke="#06B6D4" stroke-width="3"/>
+    <path d="M609 298C609 291 615 285 622 285C629 285 635 291 635 298C635 304 630 309 625 311V323H643L651 343H636L633 381H617L614 343H599L607 323H625V311C618 309 609 305 609 298Z" fill="none" stroke="#06B6D4" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="625" cy="298" r="18" fill="none" stroke="#67E8F9" stroke-width="5"/>
+
+    <rect x="492" y="568" width="152" height="34" rx="17" fill="#CFFAFE"/>
+    <text x="510" y="590" class="chip">player hidden</text>
+    <rect x="650" y="568" width="154" height="34" rx="17" fill="#D1FAE5"/>
+    <text x="671" y="590" class="chip">true tile shown</text>
+  </g>
+
+  <g>
+    <text x="832" y="214" class="cardTitle">NPC tracking mode</text>
+    <text x="832" y="242" class="cardText">Keep the real NPC visible, then add a true-tile outline and mirrored overlays.</text>
+
+    <rect x="838" y="278" width="264" height="272" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+    <g opacity="0.95">
+      <path d="M892 488L920 472L948 488L920 504L892 488Z" fill="#CBD5E1"/>
+      <path d="M952 454L980 438L1008 454L980 470L952 454Z" fill="#CBD5E1"/>
+      <path d="M1012 488L1040 472L1068 488L1040 504L1012 488Z" fill="#CBD5E1"/>
+      <path d="M952 522L980 506L1008 522L980 538L952 522Z" fill="#CBD5E1"/>
+      <path d="M892 420L920 404L948 420L920 436L892 420Z" fill="#CBD5E1"/>
+      <path d="M1012 420L1040 404L1068 420L1040 436L1012 420Z" fill="#CBD5E1"/>
+      <path d="M952 386L980 370L1008 386L980 402L952 386Z" fill="#CBD5E1"/>
+    </g>
+
+    <path d="M961 389L989 373L1017 389L989 405L961 389Z" fill="#FECACA" stroke="#EF4444" stroke-width="3"/>
+    <path d="M952 296C952 289 958 283 965 283H993C1000 283 1006 289 1006 296V320L1020 337L1001 343L995 375H963L957 343L938 337L952 320V296Z" fill="none" stroke="#EF4444" stroke-width="5" stroke-linejoin="round"/>
+
+    <path d="M938 324L958 312" stroke="#64748B" stroke-width="5" stroke-linecap="round"/>
+    <path d="M1026 438L1048 425L1070 438L1048 451L1026 438Z" fill="#FCA5A5" stroke="#DC2626" stroke-width="3"/>
+    <rect x="1027" y="357" width="42" height="8" rx="4" fill="#111827"/>
+    <rect x="1029" y="359" width="30" height="4" rx="2" fill="#22C55E"/>
+    <circle cx="1038" cy="333" r="10" fill="#111827"/>
+    <path d="M1031 333L1038 326L1045 333" stroke="#60A5FA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <text x="856" y="570" class="small">NPC stays clickable while the true tile stays readable.</text>
+  </g>
+
+  <text x="94" y="304" class="label">INTERPOLATED MODEL</text>
+  <text x="463" y="304" class="label">TRUE-TILE OUTLINE</text>
+  <text x="833" y="304" class="label">TRUE-TILE OUTLINE + UI</text>
+</svg>
