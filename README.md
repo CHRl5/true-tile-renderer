@@ -36,4 +36,5 @@ This plugin is built for situations where exact server positioning matters more 
 - Choose between current-target mode and configured-list mode
 - Configure an NPC name list
 - Toggle mirrored actor names, health bars, overheads, and hitsplats
+- Choose whether to hide original overhead UI when mirrored overlays are enabled
 - Adjust outline colors, width, and feathering

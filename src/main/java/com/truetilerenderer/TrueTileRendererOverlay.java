@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,8 @@ class TrueTileRendererOverlay extends Overlay {
   private static final Color HEALTH_BAR_BORDER = new Color(0, 0, 0, 220);
   private static final int HEALTH_BAR_WIDTH = 34;
   private static final int HEALTH_BAR_HEIGHT = 6;
+  private static final BufferedImage HEALTH_BAR_ANCHOR =
+      new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
   private static final int ICON_SPACING = 2;
   private static final int HITSPLAT_VERTICAL_SPACING = 14;
   private static final int HITSPLAT_LIFETIME_BUFFER = 30;
@@ -149,18 +152,19 @@ class TrueTileRendererOverlay extends Overlay {
 
     int clampedRatio = Math.min(healthRatio, healthScale);
     int fillWidth = Math.round((clampedRatio / (float) healthScale) * HEALTH_BAR_WIDTH);
-    BufferedImage anchor = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     Client safeClient = Objects.requireNonNull(client);
     LocalPoint safeTrueTileLocation = Objects.requireNonNull(trueTileLocation);
     Point location =
         Perspective.getCanvasImageLocation(
-            safeClient, safeTrueTileLocation, anchor, actor.getLogicalHeight() + 34);
+            safeClient, safeTrueTileLocation, HEALTH_BAR_ANCHOR, actor.getLogicalHeight() + 34);
     if (location == null) {
       return;
     }
 
     int x = location.getX() - (HEALTH_BAR_WIDTH / 2);
     int y = location.getY();
+    Color originalColor = graphics.getColor();
+    Stroke originalStroke = graphics.getStroke();
 
     graphics.setColor(HEALTH_BAR_BORDER);
     graphics.setStroke(new BasicStroke(1f));
@@ -169,6 +173,8 @@ class TrueTileRendererOverlay extends Overlay {
     graphics.fillRect(x, y, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT);
     graphics.setColor(HEALTH_BAR_FILL);
     graphics.fillRect(x, y, fillWidth, HEALTH_BAR_HEIGHT);
+    graphics.setColor(originalColor);
+    graphics.setStroke(originalStroke);
   }
 
   private void renderHeadIcons(Graphics2D graphics, Actor actor, LocalPoint trueTileLocation) {
@@ -269,6 +275,7 @@ class TrueTileRendererOverlay extends Overlay {
     }
 
     Font originalFont = graphics.getFont();
+    Color originalColor = graphics.getColor();
     graphics.setFont(HITSPLAT_FONT);
     int currentCycle = client.getGameCycle();
 
@@ -299,6 +306,7 @@ class TrueTileRendererOverlay extends Overlay {
     }
 
     graphics.setFont(originalFont);
+    graphics.setColor(originalColor);
   }
 
   private Color getHitsplatColor(int hitsplatType) {

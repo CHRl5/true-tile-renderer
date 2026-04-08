@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Actor;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
@@ -23,6 +24,7 @@ import net.runelite.api.RuneLiteObject;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ActorDeath;
+import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.HitsplatApplied;
 import net.runelite.client.callback.Hooks;
 import net.runelite.client.config.ConfigManager;
@@ -38,6 +40,7 @@ import net.runelite.client.ui.overlay.outline.ModelOutlineRenderer;
     description =
         "Render true-tile outlines and mirrored overlays for the player and selected NPCs",
     tags = {"combat", "npc", "outline", "player", "true tile"})
+@Slf4j
 public class TrueTileRendererPlugin extends Plugin {
   @Inject private Client client;
 
@@ -58,6 +61,8 @@ public class TrueTileRendererPlugin extends Plugin {
   private final IdentityHashMap<Actor, List<MirroredHitsplat>> mirroredHitsplats =
       new IdentityHashMap<>();
   private Set<String> configuredNpcNames = Collections.emptySet();
+  private Set<NPC> trackedNpcs = Collections.emptySet();
+  private boolean drawListenerErrorLogged;
 
   @Override
   @SuppressWarnings("deprecation")
@@ -72,8 +77,7 @@ public class TrueTileRendererPlugin extends Plugin {
   protected void shutDown() {
     hooks.unregisterRenderableDrawListener(drawListener);
     overlayManager.remove(overlay);
-    outlineObjects.clear();
-    mirroredHitsplats.clear();
+    clearTransientState();
   }
 
   @Subscribe
@@ -116,16 +120,23 @@ public class TrueTileRendererPlugin extends Plugin {
     }
   }
 
+  @Subscribe
+  public void onGameStateChanged(GameStateChanged event) {
+    if (event.getGameState() != GameState.LOGGED_IN) {
+      clearTransientState();
+    }
+  }
+
   void renderOutlines() {
     if (client.getGameState() != GameState.LOGGED_IN) {
-      outlineObjects.clear();
-      mirroredHitsplats.clear();
+      clearTransientState();
       return;
     }
 
     Set<Actor> trackedActors = new HashSet<>();
     renderLocalPlayerOutline(trackedActors);
-    for (NPC npc : getTrackedNpcs()) {
+    trackedNpcs = collectTrackedNpcs();
+    for (NPC npc : trackedNpcs) {
       trackedActors.add(npc);
       drawActorOutline(npc, config.npcOutlineColor());
     }
@@ -134,6 +145,10 @@ public class TrueTileRendererPlugin extends Plugin {
   }
 
   Set<NPC> getTrackedNpcs() {
+    return trackedNpcs;
+  }
+
+  private Set<NPC> collectTrackedNpcs() {
     if (!config.renderNpcs()
         || client.getLocalPlayer() == null
         || client.getTopLevelWorldView() == null) {
@@ -212,16 +227,20 @@ public class TrueTileRendererPlugin extends Plugin {
   }
 
   private boolean shouldDraw(Renderable renderable, boolean drawingUi) {
-    if (drawingUi) {
-      return !(renderable instanceof Actor) || !shouldSuppressOriginalUi((Actor) renderable);
-    }
+    try {
+      if (drawingUi) {
+        return !(renderable instanceof Actor) || !shouldSuppressOriginalUi((Actor) renderable);
+      }
 
-    Player localPlayer = client.getLocalPlayer();
-    if (config.renderLocalPlayer() && renderable == localPlayer) {
-      return false;
+      Player localPlayer = client.getLocalPlayer();
+      return !(config.renderLocalPlayer() && renderable == localPlayer);
+    } catch (RuntimeException ex) {
+      if (!drawListenerErrorLogged) {
+        log.warn("Failed to evaluate true-tile render visibility", ex);
+        drawListenerErrorLogged = true;
+      }
+      return true;
     }
-
-    return true;
   }
 
   private boolean shouldSuppressOriginalUi(Actor actor) {
@@ -288,6 +307,16 @@ public class TrueTileRendererPlugin extends Plugin {
     if (!config.mirrorHitsplats()) {
       mirroredHitsplats.clear();
     }
+    if (!config.renderNpcs()) {
+      trackedNpcs = Collections.emptySet();
+    }
+  }
+
+  private void clearTransientState() {
+    outlineObjects.clear();
+    mirroredHitsplats.clear();
+    trackedNpcs = Collections.emptySet();
+    drawListenerErrorLogged = false;
   }
 
   @Provides
