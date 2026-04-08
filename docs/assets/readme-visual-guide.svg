@@ -25,7 +25,10 @@
   <rect width="1200" height="700" rx="28" fill="url(#bg)"/>
 
   <text x="74" y="84" class="title">How True Tile Renderer changes the read</text>
-  <text x="74" y="116" class="subtitle">The plugin separates interpolated model position from the server-true tile, then mirrors the information that matters where you actually are.</text>
+  <text x="74" y="116" class="subtitle">
+    <tspan x="74" dy="0">The plugin separates interpolated model position from the server-true tile,</tspan>
+    <tspan x="74" dy="24">then mirrors the information that matters where you actually are.</tspan>
+  </text>
 
   <g filter="url(#shadow)">
     <rect x="60" y="160" width="340" height="470" rx="26" fill="url(#card)"/>
@@ -35,7 +38,10 @@
 
   <g>
     <text x="92" y="214" class="cardTitle">Default client view</text>
-    <text x="92" y="242" class="cardText">Models can drift visually from the tile the server is using.</text>
+    <text x="92" y="242" class="cardText">
+      <tspan x="92" dy="0">Models can drift visually from</tspan>
+      <tspan x="92" dy="22">the tile the server is using.</tspan>
+    </text>
 
     <rect x="98" y="278" width="264" height="272" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
     <g opacity="0.95">
@@ -55,12 +61,18 @@
     <path d="M278 419L286 408L290 421" stroke="#94A3B8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
 
     <path d="M281 423L309 407L337 423L309 439L281 423Z" fill="#E2E8F0" stroke="#94A3B8" stroke-width="3"/>
-    <text x="281" y="570" class="small">Smooth model position is easy to misread.</text>
+    <text x="154" y="572" class="small">
+      <tspan x="154" dy="0">Smooth model position is</tspan>
+      <tspan x="154" dy="20">easy to misread.</tspan>
+    </text>
   </g>
 
   <g>
     <text x="462" y="214" class="cardTitle">Local player mode</text>
-    <text x="462" y="242" class="cardText">Hide the live player model and redraw its outline on the true tile.</text>
+    <text x="462" y="242" class="cardText">
+      <tspan x="462" dy="0">Hide the live player model and</tspan>
+      <tspan x="462" dy="22">redraw its outline on the true tile.</tspan>
+    </text>
 
     <rect x="468" y="278" width="264" height="272" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
     <g opacity="0.95">
@@ -85,7 +97,10 @@
 
   <g>
     <text x="832" y="214" class="cardTitle">NPC tracking mode</text>
-    <text x="832" y="242" class="cardText">Keep the real NPC visible, then add a true-tile outline and mirrored overlays.</text>
+    <text x="832" y="242" class="cardText">
+      <tspan x="832" dy="0">Keep the real NPC visible, then add</tspan>
+      <tspan x="832" dy="22">a true-tile outline and mirrored overlays.</tspan>
+    </text>
 
     <rect x="838" y="278" width="264" height="272" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
     <g opacity="0.95">
@@ -108,7 +123,10 @@
     <circle cx="1038" cy="333" r="10" fill="#111827"/>
     <path d="M1031 333L1038 326L1045 333" stroke="#60A5FA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 
-    <text x="856" y="570" class="small">NPC stays clickable while the true tile stays readable.</text>
+    <text x="874" y="572" class="small">
+      <tspan x="874" dy="0">NPC stays clickable while the</tspan>
+      <tspan x="874" dy="20">true tile stays readable.</tspan>
+    </text>
   </g>
 
   <text x="94" y="304" class="label">INTERPOLATED MODEL</text>
