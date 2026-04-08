@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
-import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Actor;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
@@ -34,14 +33,17 @@ import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.overlay.outline.ModelOutlineRenderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @PluginDescriptor(
     name = "True Tile Renderer",
     description =
         "Render true-tile outlines and mirrored overlays for the player and selected NPCs",
     tags = {"combat", "npc", "outline", "player", "true tile"})
-@Slf4j
 public class TrueTileRendererPlugin extends Plugin {
+  private static final Logger log = LoggerFactory.getLogger(TrueTileRendererPlugin.class);
+
   @Inject private Client client;
 
   @Inject private TrueTileRendererConfig config;
