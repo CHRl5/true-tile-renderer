@@ -23,6 +23,12 @@ public class TrueTileActorMatcherTest {
   }
 
   @Test
+  public void parseConfiguredNpcNamesReturnsEmptySetForBlankInput() {
+    assertEquals(Set.of(), TrueTileActorMatcher.parseConfiguredNpcNames(null));
+    assertEquals(Set.of(), TrueTileActorMatcher.parseConfiguredNpcNames(" \n "));
+  }
+
+  @Test
   public void currentTargetModeMatchesLocalPlayerInteraction() {
     Player localPlayer = Mockito.mock(Player.class);
     NPC npc = mockNpc("Zebak");
@@ -42,6 +48,33 @@ public class TrueTileActorMatcherTest {
     assertTrue(
         TrueTileActorMatcher.shouldRenderNpc(
             npc, localPlayer, NpcRenderMode.CURRENT_TARGET, Set.of()));
+  }
+
+  @Test
+  public void currentTargetModeRejectsUntrackedOrIncompleteNpc() {
+    Player localPlayer = Mockito.mock(Player.class);
+    NPC npc = mockNpc("Zebak");
+    NPC nullWorldNpc = mockNpc("Zebak");
+    NPC nullModelNpc = mockNpc("Zebak");
+
+    Mockito.when(localPlayer.getInteracting()).thenReturn(Mockito.mock(Actor.class));
+    Mockito.when(nullWorldNpc.getWorldLocation()).thenReturn(null);
+    Mockito.when(nullModelNpc.getModel()).thenReturn(null);
+
+    assertFalse(
+        TrueTileActorMatcher.shouldRenderNpc(
+            null, localPlayer, NpcRenderMode.CURRENT_TARGET, Set.of()));
+    assertFalse(
+        TrueTileActorMatcher.shouldRenderNpc(npc, null, NpcRenderMode.CURRENT_TARGET, Set.of()));
+    assertFalse(
+        TrueTileActorMatcher.shouldRenderNpc(
+            npc, localPlayer, NpcRenderMode.CURRENT_TARGET, Set.of()));
+    assertFalse(
+        TrueTileActorMatcher.shouldRenderNpc(
+            nullWorldNpc, localPlayer, NpcRenderMode.CURRENT_TARGET, Set.of()));
+    assertFalse(
+        TrueTileActorMatcher.shouldRenderNpc(
+            nullModelNpc, localPlayer, NpcRenderMode.CURRENT_TARGET, Set.of()));
   }
 
   @Test
@@ -65,6 +98,19 @@ public class TrueTileActorMatcherTest {
   }
 
   @Test
+  public void getNpcNameFallsBackThroughAvailableSources() {
+    NPC transformedNpc = mockNpc("Kephri", "Scarab Swarm");
+    NPC compositionNpc = mockNpc("Vardorvis");
+    NPC bareNpc = Mockito.mock(NPC.class);
+
+    Mockito.when(bareNpc.getName()).thenReturn("The Leviathan");
+
+    assertEquals("Scarab Swarm", TrueTileActorMatcher.getNpcName(transformedNpc));
+    assertEquals("Vardorvis", TrueTileActorMatcher.getNpcName(compositionNpc));
+    assertEquals("The Leviathan", TrueTileActorMatcher.getNpcName(bareNpc));
+  }
+
+  @Test
   public void configuredListModeRejectsUnknownNpc() {
     Player localPlayer = Mockito.mock(Player.class);
     NPC npc = mockNpc("Vardorvis");
@@ -72,6 +118,11 @@ public class TrueTileActorMatcherTest {
     assertFalse(
         TrueTileActorMatcher.shouldRenderNpc(
             npc, localPlayer, NpcRenderMode.CONFIGURED_LIST, Set.of("duke sucellus")));
+  }
+
+  @Test
+  public void normalizeNameUsesRootLocaleLowercasing() {
+    assertEquals("the whisperer", TrueTileActorMatcher.normalizeName("The Whisperer"));
   }
 
   private static NPC mockNpc(String name) {
