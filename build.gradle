@@ -6,7 +6,7 @@ buildscript {
 		}
 		dependencies {
 			classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.25.0'
-			classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8'
+			classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.5.0'
 		}
 	}
 }
