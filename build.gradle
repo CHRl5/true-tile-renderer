@@ -29,7 +29,7 @@ repositories {
 	mavenCentral()
 }
 
-def runeLiteVersion = 'latest.release'
+def runeLiteVersion = '1.12.24'
 def pluginMainClass = 'com.truetilerenderer.TrueTileRendererPluginTest'
 def isPluginHubPackage = System.getenv('runelite.pluginhub.package.buildDir') != null
 def isMacOs = System.getProperty('os.name', '').toLowerCase().contains('mac')
