@@ -6,7 +6,7 @@ buildscript {
 		}
 		dependencies {
 			classpath 'com.diffplug.spotless:spotless-plugin-gradle:6.25.0'
-			classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8'
+			classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.5.1'
 		}
 	}
 }
@@ -29,7 +29,7 @@ repositories {
 	mavenCentral()
 }
 
-def runeLiteVersion = 'latest.release'
+def runeLiteVersion = '1.12.24'
 def pluginMainClass = 'com.truetilerenderer.TrueTileRendererPluginTest'
 def isPluginHubPackage = System.getenv('runelite.pluginhub.package.buildDir') != null
 def isMacOs = System.getProperty('os.name', '').toLowerCase().contains('mac')
@@ -49,7 +49,7 @@ dependencies {
 
 	testImplementation 'junit:junit:4.13.2'
 	testImplementation 'org.mockito:mockito-core:5.23.0'
-	testCompileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
+	testCompileOnly 'com.github.spotbugs:spotbugs-annotations:4.9.8'
 	testImplementation group: 'net.runelite', name:'client', version: runeLiteVersion
 	testImplementation group: 'net.runelite', name:'jshell', version: runeLiteVersion
 }
