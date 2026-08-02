@@ -46,7 +46,7 @@ jobs:
           owner: ${{ github.repository_owner }}
 
       - name: Checkout target ref
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ env.TARGET_REF }}
           fetch-depth: 0
